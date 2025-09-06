@@ -1,481 +1,104 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khusus Untukmu</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* === CUSTOM SCROLLBAR & BASE === */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #331d2c; }
-        ::-webkit-scrollbar-thumb { background: #e5a1aa; border-radius: 10px; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #331d2c 0%, #1a1a3d 100%);
-            color: #fcefee;
-            margin: 0;
-            padding: 2rem 1rem;
-            overflow-x: hidden;
-        }
-
-        /* === EFEK HATI BERTERBANGAN === */
-        .love-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .love-container .heart {
-            position: absolute;
-            bottom: -50px;
-            font-size: 2rem;
-            animation: fly 10s linear infinite;
-        }
-
-        @keyframes fly {
-            0% { transform: translateY(0) rotate(0); opacity: 1; }
-            100% { transform: translateY(-110vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* === HEADER === */
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        header h1 {
-            font-family: 'Pacifico', cursive;
-            font-size: 3rem;
-            color: #f7d9d9;
-            text-shadow: 0 0 15px rgba(247, 217, 217, 0.7);
-        }
-        header p {
-            font-size: 1.1rem;
-            color: #e5a1aa;
-        }
-
-        /* === PESAN-PESAN SPESIAL === */
-        .messages {
-            max-width: 800px;
-            margin: 0 auto 3rem auto;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        .messages h2 {
-            color: #e5a1aa;
-            margin-bottom: 1rem;
-        }
-
-        /* === GALERI MUSIK === */
-        .music-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .song-poster {
-            background-size: cover;
-            background-position: center;
-            border-radius: 15px;
-            overflow: hidden;
-            cursor: pointer;
-            aspect-ratio: 1 / 1;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 2px solid transparent;
-        }
-        .song-poster:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(229, 161, 170, 0.5);
-            border-color: #e5a1aa;
-        }
-        .song-poster .overlay {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            padding: 1rem;
-            text-align: center;
-        }
-        .song-poster h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 1.2rem;
-        }
-
-        /* === MODAL LIRIK (POP-UP) === */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            display: none; /* Diubah oleh JS */
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-        .modal-content {
-            background: #331d2c;
-            padding: 2rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            text-align: center;
-            position: relative;
-            border: 1px solid #e5a1aa;
-            /* Efek ngambang */
-            transform: translateY(20px);
-            transition: transform 0.5s ease;
-        }
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-            color: #e5a1aa;
-        }
-        .modal-lyrics {
-            max-height: 50vh;
-            overflow-y: auto;
-            white-space: pre-wrap; /* Agar baris baru di lirik terbaca */
-            line-height: 1.8;
-            margin-top: 1rem;
-            color: #fcefee;
-        }
-        #modalSongTitle {
-            font-size: 1.8rem;
-            color: #f7d9d9;
-            margin-bottom: 1rem;
-        }
-        #modalAudioPlayer {
-            width: 80%;
-            margin-top: 1.5rem;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galaxy with Zoom Effect</title>
+  <link rel="stylesheet" href="style.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+        "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.152.2/examples/jsm/controls/OrbitControls.js",
+        "three/examples/jsm/loaders/FontLoader.js": "https://unpkg.com/three@0.152.2/examples/jsm/loaders/FontLoader.js",
+        "three/examples/jsm/geometries/TextGeometry.js": "https://unpkg.com/three@0.152.2/examples/jsm/geometries/TextGeometry.js"
+      }
+    }
+  </script>
+  <style>
+    #player {
+      display: none;
+    }
+    #musicButton {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      background-color: #ffffff10;
+      color: white;
+      border: 1px solid white;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 9999;
+      font-weight: bold;
+      backdrop-filter: blur(5px);
+    }
+    #musicButton:hover {
+      background-color: #ffffff30;
+    }
+  </style>
 </head>
+
 <body>
+  <div id="container"></div>
 
-    <div class="love-container"></div>
-
-    <header>
-        <h1>Untukmu</h1>
-        <p>Sebuah playlist kecil untuk hari-harimu yang indah.</p>
-    </header>
-
-    <main>
-        <section class="messages">
-            <h2>Beberapa Pesan Untukmu 💕</h2>
-            <p>"Hai, jangan lupa tersenyum hari ini ya. Kamu hebat!"</p>
-            <p>"Jaga kesehatan selalu, dan yang paling penting... jangan lupa sholat ya, sayang."</p>
-            <p>"Semoga harimu selalu cerah secerah senyummu."</p>
-            <p>Kamu tahu nggak? Senyummu itu kayak WiFi, bikin aku selalu ingin terhubung.</p>
-            <p>Kalau kamu jadi lagu, aku nggak akan pernah skip.</p>
-            <p>Aku nggak perlu peta, karena setiap kali lihat kamu, aku selalu tahu jalan menuju bahagia.</p>
-            <p>Kamu itu alasan kenapa aku sering ketawa sendiri tanpa sebab.</p>
-            <p>Kalau kamu bintang, aku rela jadi langit yang selalu menatapmu.</p>
-        </section>
-
-        <section class="music-gallery" id="musicGallery">
-            </section>
-    </main>
-    
-    <div class="modal" id="lyricsModal">
-        <div class="modal-content">
-            <span class="modal-close" id="modalClose">&times;</span>
-            <h2 id="modalSongTitle">Judul Lagu</h2>
-            <div class="modal-lyrics" id="modalLyricsContainer">
-                Lirik akan muncul di sini...
-            </div>
-            <audio controls id="modalAudioPlayer" src=""></audio>
-        </div>
+  <div id="landscape-warning">
+    <div class="warning-content">
+      <div class="rotate-icon"></div>
+      <h1>Stellar Bloom</h1>
+      <h1>Tinh Cầu</h1>
+      <div class="stars-bg"></div>
     </div>
+  </div>
 
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // =======================================================
-        // === AREA KUSTOMISASI LAGU & LIRIK (GANTI DI SINI) ===
-        // =======================================================
-        const songDatabase = [
-            {
-                id: 'komang',
-                title: 'Komang',
-                artist: 'Raim Laode',
-                poster: 'https://assets.kompasiana.com/items/album/2023/02/26/img-20230226-221733-63fb7c354addee3a38413836.jpg?t=o&v=740&x=416', // Ganti dengan URL poster asli
-                audio: 'https://f.top4top.io/m_3509ujkia1.mp3', // Ganti dengan URL file audio .mp3
-                lyrics: `
-Dari kejauhan tergambar cerita tentang kita
-Terpisah jarak dan waktu
-Ingin kuungkapkan rinduku lewat kata indah
-Tak cukup untuk dirimu
-Sebab kau terlalu indah dari sekedar kata
-Dunia berhenti sejenak menikmati indahmu
-
-Dan apabila tak bersamamu
-Ku pastikan kujalani dunia tak seindah kemarin
-Sederhana tertawamu sudah cukup
-Lengkapi sempurnanya hidup bersamamu
-
-Jika hari kulalui tanpa hawamu
-Percuma senyumku dengan dia
-
-Dan apabila tak bersamamu
-Ku pastikan kujalani dunia tak seindah kemarin
-Sederhana tertawamu sudah cukup
-Lengkapi sempurnanya hidup bersamamu
-
-Apabila tak bersamamu
-Ku pastikan kujalani dunia tak seindah kemarin
-Sederhana tertawamu sudah cukup
-Lengkapi sempurnanya
-Hidup bersamamu
-
-Sebab kau terlalu indah dari sekedar kata
-Dunia berhenti sejenak menikmati indahmu
-                `
-            },
-            {
-                id: 'sempurna',
-                title: 'Sempurna',
-                artist: 'Andra and the BackBone',
-                poster: 'https://i.pinimg.com/736x/6e/a8/6e/6ea86e7088ad37fdf5bd1c85cc76b9e4.jpg',
-                audio: 'https://l.top4top.io/m_3509leyq91.mp3',
-                lyrics: `
-Kau begitu sempurna
-Di mataku kau begitu indah
-Kau membuat diriku akan slalu memujimu
-
-Di setiap langkahku
-Ku kan slalu memikirkan dirimu
-Tak bisa kubayangkan hidupku tanpa cintamu
-
-*
-Janganlah kau tinggalkan diriku
-Takkan mampu menghadapi semua
-Hanya bersamamu ku akan bisa
-
-Reff:
-Kau adalah darahku
-Kau adalah jantungku
-Kau adalah hidupku
-Lengkapi diriku
-Oh sayangku, kau begitu
-Sempurna.. Sempurna..
-
-Kau genggam tanganku
-Saat diriku lemah dan terjatuh
-Kau bisikkan kata dan hapus semua sesalku
-                `
-            },
-            {
-                id: 'hatihati',
-                title: 'Hati-Hati di Jalan',
-                artist: 'Tulus',
-                poster: 'https://i.pinimg.com/736x/a2/19/76/a2197680e49ab3069a973c48668c7bff.jpg',
-                audio: 'https://k.top4top.io/m_3509lygm81.mp3',
-                lyrics: `
-Perjalanan membawamu
-Bertemu denganku
-Ku bertemu kamu
-Sepertimu yang kucari
-Konon aku juga seperti yang kau cari
-
-Kukira kita asam dan garam
-Dan kita bertemu di belanga
-Kisah yang ternyata tak seindah itu
-
-Kukira kita akan bersama
-Begitu banyak yang sama
-Latarmu dan latarku
-
-Kukira takkan ada kendala
-Kukira inikan mudah
-Kau aku jadi kita
-
-Kasih sayangmu membekas
-Redam kini sudah pijar istimewa
-Entah apa maksud dunia
-Tentang ujung cerita
-Kita tak bersama
-
-Semoga rindu ini menghilang
-Konon katanya waktu sembuhkan
-Akan adakah lagi yang sepertimu
-
-Kukira kita akan bersama
-Begitu banyak yang sama
-Latarmu dan latarku
-Kukira takkan ada kendala
-Kukira inikan mudah
-Kau aku jadi kita
-
-Kau melanjutkan perjalananmu
-Ku melanjutkan perjalananku
-Uh uh uh
-
-Kukira kita akan bersama
-Begitu banyak yang sama
-Latarmu dan latarku
-Kukira takkan ada kendala
-Kukira inikan mudah
-Kau aku jadi kita
-Kukira kita akan bersama
-
-Hati-hati di jalan
-                `
-            },
-            {
-                id: 'cantik',
-                title: 'Cantik',
-                artist: 'Kahitna',
-                poster: 'https://i.pinimg.com/736x/61/65/ea/6165eafd9f65501f3a22d79b67a1577a.jpg',
-                audio: 'https://h.top4top.io/m_3509qe4jo1.mp3',
-                lyrics: `
-Cantik...
-Ingin rasa hati berbisik
-Untuk melepas keresahan
-Dirimu
-
-Cantik...
-Bukan ku ingin mengganggumu
-Tapi apa arti merindu
-Selalu...
-Ooo...
-
-Walau mentari terbit di utara
-Hatiku hanya untukmu...
-
-Ada hati yang termanis dan penuh cinta
-Tentu saja kan kubalas seisi jiwa
-Tiada lagi
-Tiada lagi yang ganggu kita
-Ini kesungguhan
-Sungguh aku sayang kamu
-
-Cantik...
-Bukan kuingin mengganggumu
-Tapi apa arti merindu
-Selalu...
-Ooo...
-
-Walau mentari terbit di utara
-Hatiku hanya untukmu...
-
-Ada hati yang termanis dan penuh cinta
-Tentu saja kan kubalas seisi jiwa
-Tiada lagi
-Tiada lagi yang ganggu kita
-Ini kesungguhan
-Sungguh aku sayang kamu
-
-Ingin ku berjalan menyusuri cinta
-Cinta yang abadi untukmu selamanya...
-Heeeei..... heya ya ya heya ya ya heya...
-
-Ada hati yang termanis dan penuh cinta
-Tentu saja kan kubalas seisi jiwa
-Tiada lagi
-Tiada lagi yang ganggu kita
-Ini kesungguhan
-Sungguh aku sayang kamu
-                `
+  <div id="dark-overlay"></div>
+  <div id="info"></div>
+<h1 style="position: fixed; bottom: 10px; right: 10px; font-size: 18px; font-family: Arial, sans-serif; color: white; background: rgba(0, 0, 0, 0.4); padding: 6px 12px; border-radius: 8px; z-index: 9999;">
+  Create by Fairuz
+</h1>
+  <button id="musicButton" disabled>Mainkan Musik 🎵</button>
+  <div id="player"></div>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+     const startTime = 227;
+    const endTime = 261;
+    window.onYouTubeIframeAPIReady = function() {
+      player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: 'd4OMqGKBl6E',
+        playerVars: {
+          autoplay: 0,
+          start: startTime,
+          end: endTime,
+          controls: 0,
+          loop: 1,
+          playlist: 'd4OMqGKBl6E'
+        },
+        events: {
+          onReady: () => {
+            const btn = document.getElementById('musicButton');
+            btn.disabled = false;
+            btn.innerText = "Mainkan Musik 🎵";
+          },
+          onStateChange: (event) => {
+            if (event.data === YT.PlayerState.ENDED) {
+              player.seekTo(90);
             }
-            // --- Tambahkan lagu lain di sini dengan format yang sama ---
-        ];
-        // =======================================================
-        // === AKHIR AREA KUSTOMISASI ===
-        // =======================================================
-
-
-        // --- Kode untuk menjalankan semua fitur ---
-        const gallery = document.getElementById('musicGallery');
-        const modal = document.getElementById('lyricsModal');
-        const modalClose = document.getElementById('modalClose');
-        const modalTitle = document.getElementById('modalSongTitle');
-        const modalLyrics = document.getElementById('modalLyricsContainer');
-        const modalAudio = document.getElementById('modalAudioPlayer');
-
-        // Membuat poster lagu di halaman
-        songDatabase.forEach(song => {
-            const posterDiv = document.createElement('div');
-            posterDiv.className = 'song-poster';
-            posterDiv.style.backgroundImage = `url('${song.poster}')`;
-            posterDiv.dataset.songId = song.id;
-
-            const overlayDiv = document.createElement('div');
-            overlayDiv.className = 'overlay';
-            overlayDiv.innerHTML = `<h3>${song.title}</h3><p>${song.artist}</p>`;
-            
-            posterDiv.appendChild(overlayDiv);
-            gallery.appendChild(posterDiv);
-
-            // Menambahkan event listener untuk membuka lirik
-            posterDiv.addEventListener('click', () => {
-                modalTitle.textContent = song.title;
-                modalLyrics.textContent = song.lyrics;
-                modalAudio.src = song.audio;
-                modal.classList.add('show');
-            });
-        });
-
-        // Menutup modal
-        modalClose.addEventListener('click', () => {
-            modal.classList.remove('show');
-            modalAudio.pause(); // Hentikan lagu saat ditutup
-            modalAudio.currentTime = 0;
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-                modalAudio.pause();
-                modalAudio.currentTime = 0;
-            }
-        });
-
-        // Membuat efek hati berterbangan
-        const loveContainer = document.querySelector('.love-container');
-        const heartCount = 20;
-        for (let i = 0; i < heartCount; i++) {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.textContent = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Durasi 5-10 detik
-            heart.style.animationDelay = Math.random() * 5 + 's';
-            heart.style.fontSize = (Math.random() * 1.5 + 1) + 'rem'; // Ukuran berbeda
-            heart.style.opacity = Math.random() * 0.5 + 0.3; // Opacity berbeda
-            loveContainer.appendChild(heart);
+          }
         }
+      });
+    };
+
+    document.getElementById('musicButton').addEventListener('click', () => {
+      if (player) {
+        player.playVideo();
+        document.getElementById('musicButton').style.display = 'none';
+      }
     });
-    </script>
+  </script>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
